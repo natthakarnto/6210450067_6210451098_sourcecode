@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:margin-bottom="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>The Premium @KU Website</title>
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<style>
+    body
+    {
+        /*            background-image: url('https://wallpaperaccess.com/full/2029165.jpg');*/
+        background:url('https://cdn.discordapp.com/attachments/800934715573010436/1039196060406521916/f2f2f7.jpg');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+<body>
+<div th:insert="fragments/header :: header"></div>
+
+<div class="container" style="background-color: white; margin-top:50px; margin-bottom: 50px; padding-bottom: 20px ;border-radius: 25px;">
+    <div class="row mb-4">
+        <div class="col">
+<!--            <h1 class="display-6 text-center" style="font-weight: bold; text-align: center; font-size: 45px; padding-top: 50px; margin-left: 400px; margin-bottom: 30px">Add Product</h1>-->
+            <h1></h1>
+        </div>
+
+        <div class="col">
+            <h1 class="display-6 text-center" style="color: cornflowerblue; font-weight: bold; text-align: center; font-size: 45px; padding-top: 50px; margin-left: 20px; margin-bottom: 0px">Add Product</h1>
+        </div>
+
+        <div class="col text-end">
+            <div class="mb-3">
+                <a class="btn btn-primary" style="margin-right: 35px; margin-top: 60px; margin-bottom: 0px" th:href="@{/cakes}">Back to Product</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-danger" style="text-align: center" role="alert" th:text="${error}" th:if="${error}"></div>
+
+    <div th:if="${message}">
+        <h6 th:text="${message}" style="color: mediumseagreen"/>
+    </div>
+
+    <div>
+        <form method="POST" enctype="multipart/form-data" action="/upload_files/handle_upload">
+            <table>
+                <tr><td>File to upload (.png):</td><td><input type="file" name="file"/></td></tr>
+                <tr><td></td><td><input type="submit" value="Upload" style="margin-top: 5px; font-weight: bold" onclick = "return confirm('Would you like to confirm?')" /></td></tr>
+            </table>
+        </form>
+    </div>
+
+    <div>
+        <ul>
+            <li th:each="file : ${files}">
+                <a th:href="${file}" th:text="${file}" />
+            </li>
+        </ul>
+    </div>
+
+<!--    <form th:action="@{/cakes/save}"-->
+<!--          th:object="${cakes}" method="post"-->
+<!--          enctype="multipart/form-data">-->
+<!--        <div>-->
+
+<!--            <label>Photos: </label>-->
+<!--            <input type="file" name="image" accept="image/png, image/jpeg" />-->
+
+<!--        </div>-->
+
+<!--        <img th:src="@{${cakes.photosImagePath}}" />-->
+<!--    </form>-->
+
+    <form th:action="@{/cakes/add}" method="POST">
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="productNameInput" class="form-label">ชื่อผลิตภัณฑ์</label>
+                    <input id="productNameInput" type="text" class="form-control" name="productName" placeholder="Product Name">
+                </div>
+            </div>
+
+<!--            <div class="col">-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="productOwnerInput" class="form-label">รหัสเจ้าของสินค้า</label>-->
+<!--                    <input id="productOwnerInput" type="text" class="form-control" name="poID" placeholder="Ex.T0000001">-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label for="productInput" class="form-label">ราคาสินค้า (Baht)</label>
+<!--                    <input id="productInput" type="text" class="form-control" name="price" placeholder="Ex.499.00">-->
+                    <input id="productInput" type="number" class="form-control" name="price" value="1.00" step="0.01" min="0.01" max="9999.99">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label for="weightInput" class="form-label">ประเภทสินค้า</label>
+                    <input id="weightInput" type="text" class="form-control" name="productCategory" placeholder="Ex.เวชภัณฑ์">
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="amountInput" class="form-label">คำอธิบายรายละเอียดสินค้า</label>
+            <input id="amountInput" type="text" class="form-control" name="productDescription" placeholder="Ex.เซรั่มที่ช่วยดูแลปัญหาผิวที่มีสิวโดยเฉพาะช่วยควบคุมความมัน...">
+        </div>
+        <div class="mb-3">
+            <label for="priceInput" class="form-label">คุณสมบัติสินค้า</label>
+            <input id="priceInput" type="text" class="form-control" name="productAttrib" placeholder="Ex.มีคุณสมบัติที่ช่วยในการลดสิว และจุดด่างดำ พร้อมทำให้หน้าชุ่มชื้น...">
+        </div>
+        <div class="mb-3">
+            <label for="productUseGuidelineInput" class="form-label">วิธีการใช้งาน</label>
+            <input id="productUseGuidelineInput" type="text" class="form-control" name="productUsageGuideline" placeholder="Ex.แกะและอบพร้อมทาน...">
+        </div>
+        <div class="mb-3">
+            <label for="productIngredientsInput" class="form-label">ส่วนประกอบ</label>
+            <input id="productIngredientsInput" type="text" class="form-control" name="productIngredients" placeholder="Ex.1.แมคคาเดเมียอบแห้ง 2.เกลือ 3.น้ำมัน...">
+        </div>
+        <div class="mb-3">
+            <label for="productNutritionInput" class="form-label">สารอาหาร</label>
+            <input id="productNutritionInput" type="text" class="form-control" name="productNutrition" placeholder="Ex.มีคุณค่าทางโภชนาการสูง ไม่ว่าจะเป็นวิตามิน แร่ธาตุ และ...">
+        </div>
+        <div class="mb-3">
+            <label for="productUseIndicationInput" class="form-label">ข้อบ่งใช้</label>
+            <input id="productUseIndicationInput" type="text" class="form-control" name="productUseIndication" placeholder="Ex.ใช่รับประทานเหมาะสำหรับคนที่ทานคีโต หรือใช้ตกแต่งหน้าขนม...">
+        </div>
+
+        <div class="row mb-4">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="productQuantityInput" class="form-label">จำนวนของผลิตภัณฑ์</label>
+<!--                    <input id="productQuantityInput" type="text" class="form-control" name="productQuantity" placeholder="Ex.49">-->
+                    <input id="productQuantityInput" type="number" class="form-control" name="productQuantity" value="1" step="1" min="1" max="9999">
+                </div>
+            </div>
+
+            <div class="col">
+<!--                <div class="mb-3">-->
+<!--                    <label for="productSizeInput" class="form-label">ขนาดของผลิตภัณฑ์</label>-->
+<!--                    <input id="productSizeInput" type="text" class="form-control" name="productSize" placeholder="Ex.Shirt = S, M, L, XL">-->
+                <label for="productSizeInput" class="form-label">ขนาดของผลิตภัณฑ์</label>
+                <select name="productSize" id="productSizeInput" type="text" class="form-control">
+                        <option value="None">None</option>
+                    <optgroup label="Product Size">
+                        <option value="ไม่ผ่าน">SS</option>
+                        <option value="ไม่ผ่าน">S</option>
+                        <option value="ไม่ผ่าน">M</option>
+                        <option value="ไม่ผ่าน">L</option>
+                        <option value="ไม่ผ่าน">XL</option>
+                        <option value="ไม่ผ่าน">XXL</option>
+                    </optgroup>
+                </select>
+<!--                </div>-->
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="productVolumeInput" class="form-label">ปริมาตรสุทธิ</label>
+                    <input id="productVolumeInput" type="text" class="form-control" name="productVolume" placeholder="Ex.90 ML">
+                </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="productWeightInput" class="form-label">น้ำหนักสุทธิ</label>
+                    <input id="productWeightInput" type="text" class="form-control" name="productWeight" placeholder="Ex.70 KG">
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="productPromotionInput" class="form-label">โปรโมชั่นของสินค้า</label>
+            <input id="productPromotionInput" type="text" class="form-control" name="productPromotion" placeholder="Ex.โปรโมชั่นลดแรง Sale 10%">
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <div class="form-outline">
+                    <label for="productDiscountPercentIDInput" class="form-label">เปอร์เซ็นต์ส่วนลดสินค้า (%)</label>
+<!--                    <input id="productDiscountPercentIDInput" type="text" class="form-control" name="productDiscountPercent" placeholder="Ex.10.00"> &lt;!&ndash;Name = ชื่อด้านหลังต้องตรงกับฟีลในโมเดล&ndash;&gt;-->
+                    <input id="productDiscountPercentIDInput" type="number" class="form-control" name="productDiscountPercent" value="0" step="5" min="0" max="100">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label for="priceExcludingVatInput" class="form-label">ราคาก่อนรวมภาษี (Baht)</label>
+<!--                    <input id="priceExcludingVatInput" type="text" class="form-control" name="priceExcludingVat" placeholder="Ex.350.00">-->
+                    <input id="priceExcludingVatInput" type="number" class="form-control" name="priceExcludingVat" value="1.00" step="0.01" min="0.01" max="9999.99">
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-outline">
+                    <label for="pricePromotionInput" class="form-label">ราคาหลังโปรโมชั่น (Baht)</label>
+<!--                    <input id="pricePromotionInput" type="text" class="form-control" name="pricePromotion" placeholder="Ex.441.00">-->
+                    <input id="pricePromotionInput" type="number" class="form-control" name="pricePromotion" value="1.00" step="0.01" min="0.01" max="9999.99">
+                </div>
+            </div>
+        </div>
+
+<!--        <div class="row mb-4">-->
+<!--            <div class="col">-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="PCIDInput" class="form-label">เลขใบรับรองผลิตภัณฑ์</label>-->
+<!--                    <input id="PCIDInput" type="text" class="form-control" name="pcID" placeholder="Ex.C0000001">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="PRR_IDInput" class="form-label">เลขผลงานวิจัยที่รองรับผลิตภัณฑ์</label>-->
+<!--                    <input id="PRR_IDInput" type="text" class="form-control" name="prr_ID"placeholder="Ex.R0000001">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="row mb-4">-->
+<!--            <div class="col">-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="PSVIDInput" class="form-label">Product story embedded video ID</label>-->
+<!--                    <input id="PSVIDInput" type="text" class="form-control" name="psvID" placeholder="Ex.PSV01">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="FTVIDInput" class="form-label">Food traceability embedded video ID</label>-->
+<!--                    <input id="FTVIDInput" type="text" class="form-control" name="ftvID" placeholder="Ex.FTV01">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="row mb-4">-->
+<!--            <div class="col">-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="AIDInput" class="form-label">Audio ID</label>-->
+<!--                    <input id="AIDInput" type="text" class="form-control" name="aID" placeholder="Ex.A01">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col">-->
+<!--                <div class="mb-3">-->
+<!--                    <label for="RREIDInput" class="form-label">เลขคะแนนและรีวิวของผลิตภัณฑ์</label>-->
+<!--                    <input id="RREIDInput" type="text" class="form-control" name="rreID" placeholder="Ex.RE0001">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="text-center" style="margin-bottom: 15px">
+            <button type="submit" class="btn btn-primary" onclick = "return confirm('Would you like to confirm?')">Add Product</button>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>

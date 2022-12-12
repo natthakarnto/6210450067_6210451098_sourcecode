@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>The Premium @KU Website</title>
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<style>
+    body
+    {
+        /*            background-image: url('https://wallpaperaccess.com/full/2029165.jpg');*/
+        background:url('https://cdn.discordapp.com/attachments/800934715573010436/1039196060406521916/f2f2f7.jpg');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+    }
+</style>
+<body>
+<div th:insert="fragments/header :: header"></div>
+
+<div class="container" style="background-color: white; margin-top:50px; margin-bottom: 50px; padding-bottom: 20px ;border-radius: 25px;">
+    <h1 class="display-6 text-center" style="font-weight: bold; text-align:center; color: cornflowerblue ;font-size: 45px ;margin-bottom: 50px; padding-top: 35px">Story Embedded Video Add</h1>
+
+    <div class="alert alert-danger" style="text-align: center" role="alert" th:text="${error}" th:if="${error}"></div>
+
+    <div th:if="${message}">
+        <h6 th:text="${message}" style="color: mediumseagreen"/>
+    </div>
+
+    <div>
+        <form method="POST" enctype="multipart/form-data" action="/upload_files/story_upload">
+            <table>
+                <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+                <tr><td></td><td><input type="submit" value="Upload" style="margin-top: 5px; font-weight: bold" onclick = "return confirm('Would you like to confirm?')"/></td></tr>
+            </table>
+        </form>
+    </div>
+
+    <div>
+        <ul>
+            <li th:each="file : ${files}">
+                <a th:href="${file}" th:text="${file}" />
+            </li>
+        </ul>
+    </div>
+
+    <form th:action="@{/story/add}" method="POST">
+
+<!--        <div class="mb-3">-->
+<!--            <label for="productNameInput" class="form-label">ชื่อผลิตภัณฑ์</label>-->
+<!--            <input id="productNameInput" type="text" class="form-control" name="productName">-->
+<!--        </div>-->
+
+        <label for="productNameInput" class="form-label">ชื่อผลิตภัณฑ์</label>
+        <select name="productName" id="productNameInput" type="text" class="form-control">
+            <option th:each="cakesStory : ${cakesStory}" th:value="${cakesStory.productName}" th:utext="${cakesStory.productName}"></option>
+        </select>
+
+        <div class="mb-3" style="margin-top: 15px">
+            <label for="productOwnerInput" class="form-label">ชื่อวิดิโอนำเสนอเรื่องราวผลิตภัณฑ์</label>
+            <input id="productOwnerInput" type="text" class="form-control" name="prodStoryName">
+        </div>
+
+        <div class="row mb-4" style="margin-top: 10px">
+            <div class="col" style="margin-left: 435px">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary" style="margin-bottom: -35px" onclick = "return confirm('Would you like to confirm?')">Add Story Embedded Video</button>
+                </div>
+            </div>
+
+            <div class="col text-end">
+                <div class="mb-3">
+                    <a class="btn btn-primary" style="margin-right: 35px; margin-bottom: -35px" th:href="@{/story/list}">Back</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

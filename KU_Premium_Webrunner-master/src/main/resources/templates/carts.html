@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>The Premium @KU Website</title>
+  <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<style>
+  body
+  {
+    /*            background-image: url('https://wallpaperaccess.com/full/2029165.jpg');*/
+    background:url('https://cdn.discordapp.com/attachments/800934715573010436/1039196060406521916/f2f2f7.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+</style>
+<body>
+
+<div th:insert="fragments/header :: header"></div>
+
+<div class="container" style="background-color:white; margin-top:50px; padding-top: 30px; padding-bottom: 30px; padding-right: 30px; padding-left: 30px; border-radius:10px;">
+  <!--  <h1 class="display-6">Cart</h1>-->
+
+  <table class="table table-striped" style="text-align: center">
+    <thead>
+    <tr>
+      <th style="color: cornflowerblue">Product Picture</th>
+      <!--      <th>Product ID</th>-->
+      <th style="color: cornflowerblue">Product Name</th>
+      <!--      <th>Product Owner ID</th>-->
+      <th style="color: cornflowerblue">Product Category</th>
+      <th style="color: cornflowerblue">Product Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cake : ${carts}">
+      <td><img th:src=" ${'../../images/' + cake.getCakes.productName+ '.png'} " width="100">
+      </img></td>
+      <!--เพิ่มรหัสเจ้าของสินค้าด้วยฮับ-->
+      <!--      <td text="P0000001"></td>-->
+      <td th:text="${cake.getCakes().productName}"></td>
+      <!--เพิ่มรหัสเจ้าของสินค้าด้วยฮับ-->
+      <!--      <td text="T0000001"></td>-->
+      <td th:text="${cake.getCakes().productCategory}"></td>
+      <td th:text="${cake.getCakes().price}"></td>
+      <td>
+        <a th:href="@{/cart/remove/{id}(id=${cake.getCakes().pID})}">
+          <button type="button" class="btn btn-primary">Delete</button>
+        </a>
+      </td>
+
+    </tr>
+    <!--    <h1 th:text="${'Total '+ priceCal +' Baht'}"></h1>-->
+    </tbody>
+<!--    <h1 class="display-6" style="padding-bottom: 10px">Checklist</h1>-->
+
+    <div class="row mb-4">
+      <div class="col">
+        <h1></h1>
+      </div>
+
+      <div class="col">
+        <h1 class="display-6 text-center" style="color: cornflowerblue; font-weight: bold; text-align: center; font-size: 45px; margin-bottom: -15px">Checklist</h1>
+      </div>
+
+      <div class="col text-end">
+        <div class="mb-3">
+          <h4 class="col text-end" style="padding-left:0; margin-bottom: -15px" th:text="${price} + ' products'"></h4>
+        </div>
+      </div>
+    </div>
+    <marquee>Please make sure not to check in the same product.</marquee>
+  </table>
+
+  <!--  <div class="d-flex justify-content-center">-->
+  <!--    <a  class="btn btn-danger" th:href="@{/order/list}" type="submit">Payment</a>-->
+  <!--  </div>-->
+  <!--  <a th:href="@{/order/address}"><button class="btn">CHECKOUT</button></a>-->
+  <div class="d-flex justify-content-center">
+    <a  class="btn btn-primary" th:href="@{/order/address}" type="submit">Next</a>
+  </div>
+  <div>
+    <a class="btn btn-primary" th:href="@{/products}">Back to product page</a>
+  </div>
+</div>
+</body>
+</html>
